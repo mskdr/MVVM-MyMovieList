@@ -19,7 +19,7 @@ interface MoviesAPI {
         @Query("api_key")
         apiKey: String = API_KEY
     ): Response<Movies>
-
+}
 //    @GET("top_rates")
 //    suspend fun searchForNews(
 //        @Query("q")
@@ -29,7 +29,5 @@ interface MoviesAPI {
 //        @Query("apiKey")
 //        apiKey: String = API_KEY
 //    ): Response<Movies>
-
-}
 
 //https://api.themoviedb.org/3/movie/popular?api_key=d1f85d110b688bdc7c34ee9d5926f793

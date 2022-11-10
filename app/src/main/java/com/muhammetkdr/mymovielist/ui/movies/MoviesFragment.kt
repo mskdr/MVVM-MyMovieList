@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muhammetkdr.mymovielist.R
 import com.muhammetkdr.mymovielist.adapter.MoviesAdapter
 import com.muhammetkdr.mymovielist.databinding.FragmentMoviesBinding
 import com.muhammetkdr.mymovielist.repository.MovieRepository
+import com.muhammetkdr.mymovielist.roomdb.MoviesDatabase
 import com.muhammetkdr.mymovielist.utils.Resource
 
 class MoviesFragment : Fragment(R.layout.fragment_movies) {
@@ -30,9 +33,14 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-        val moviesRepository = MovieRepository()
+        val moviesRepository = MovieRepository(MoviesDatabase(requireContext()))
         val moviesViewModelFactory = MoviesViewModelFactory(moviesRepository)
         moviesViewModel = ViewModelProvider(this, moviesViewModelFactory)[MoviesViewModel::class.java]
+
+        moviesAdapter.setOnItemClickListener {  movieList->
+            val action = MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(movieList)
+            Navigation.findNavController(view).navigate(action)
+        }
 
         moviesViewModel.popularMovies.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -57,13 +65,13 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.INVISIBLE
-//        breakingNewsViewModel.setLoadingDataFalse()
+//        moviesViewModel.setLoadingDataFalse()
 //        isLoading = false
     }
 
     private fun showProgressBar() {
         binding.progressBar.visibility = View.VISIBLE
-//        breakingNewsViewModel.setLoadingDataTrue()
+//        moviesViewModel.setLoadingDataTrue()
 //        isLoading = true
     }
 

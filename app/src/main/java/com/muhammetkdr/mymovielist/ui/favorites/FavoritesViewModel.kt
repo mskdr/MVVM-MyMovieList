@@ -1,4 +1,8 @@
 package com.muhammetkdr.mymovielist.ui.favorites
 
-class FavoritesViewModel {
+import androidx.lifecycle.ViewModel
+import com.muhammetkdr.mymovielist.repository.MovieRepository
+
+class FavoritesViewModel(val moviesRepository: MovieRepository): ViewModel() {
+
 }
