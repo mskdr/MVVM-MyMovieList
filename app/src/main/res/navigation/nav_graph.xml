@@ -31,4 +31,12 @@
         <argument android:name="movie"
             app:argType="com.muhammetkdr.mymovielist.models.MoviesResponse" />
     </fragment>
+    <fragment
+        android:id="@+id/searchMoviesFragment"
+        android:name="com.muhammetkdr.mymovielist.ui.search.SearchMoviesFragment"
+        android:label="SearchMoviesFragment" >
+        <action
+            android:id="@+id/action_searchMoviesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

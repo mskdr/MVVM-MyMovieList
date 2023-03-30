@@ -9,7 +9,7 @@ class DetailsViewModelFactory(private val moviesRepository: MovieRepository) : V
         if(modelClass.isAssignableFrom(DetailsViewModel::class.java)){
             return DetailsViewModel(moviesRepository) as T
         }else{
-            throw IllegalStateException("Can not create instance of MoviesViewModel")
+            throw IllegalStateException("Can not create instance of detailsViewModel")
         }
     }
 }

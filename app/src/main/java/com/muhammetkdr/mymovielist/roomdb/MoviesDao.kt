@@ -10,7 +10,7 @@ import com.muhammetkdr.mymovielist.models.MoviesResponse
 
 @Dao
 interface MoviesDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun upsert(movies: MoviesResponse): Long
 
     @Query("SELECT * FROM movies")

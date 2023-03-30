@@ -6,7 +6,7 @@ import com.muhammetkdr.mymovielist.roomdb.MoviesDatabase
 
 class MovieRepository(val db: MoviesDatabase) {
 
-    suspend fun getTopRatedMovies() = RetrofitInstance.api.getTopRatedMovies()
+    suspend fun searchMovies(searchQuery: String) = RetrofitInstance.api.searchMovies(searchQuery = searchQuery)
 
     suspend fun getPopularMovies() = RetrofitInstance.api.getPopularMovies()
 

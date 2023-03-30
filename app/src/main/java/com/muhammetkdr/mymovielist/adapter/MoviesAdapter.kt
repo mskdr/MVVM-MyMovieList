@@ -33,23 +33,27 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     }
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val movies = differ.currentList[position]
-        holder.itemView.apply {
-            Glide.with(holder.itemView.context)
-                .load("https://image.tmdb.org/t/p/w500/${movies.posterPath}")
-                .into(holder.moviesBinding.recyclerImageView)
-            holder.moviesBinding.overviewTextView.text = movies.overview
-            holder.moviesBinding.titleTextView.text = movies.title
-            setOnClickListener {
-                onItemClickListener?.let {
-                    it(movies)
+        movies?.let {
+            holder.itemView.apply {
+                Glide.with(holder.itemView.context)
+                    .load("https://image.tmdb.org/t/p/w500/${movies.posterPath}")
+                    .into(holder.moviesBinding.recyclerImageView)
+                holder.moviesBinding.overviewTextView.text = movies.overview
+                holder.moviesBinding.titleTextView.text = movies.title
+                setOnClickListener {
+                    onItemClickListener?.let {
+                        it(movies)
+                    }
                 }
             }
         }
     }
+
     private var onItemClickListener: ((MoviesResponse) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (MoviesResponse) -> Unit) {
         onItemClickListener = listener
     }
+
     override fun getItemCount(): Int = differ.currentList.size
 }

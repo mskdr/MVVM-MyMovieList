@@ -9,7 +9,7 @@ class FavoritesViewModelFactory(private val moviesRepository: MovieRepository) :
         if(modelClass.isAssignableFrom(FavoritesViewModel::class.java)){
             return FavoritesViewModel(moviesRepository) as T
         }else{
-            throw IllegalStateException("Can not create instance of MoviesViewModel")
+            throw IllegalStateException("Can not create instance of favoritesViewModel")
         }
     }
 }

@@ -8,9 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.muhammetkdr.mymovielist.R
 import com.muhammetkdr.mymovielist.adapter.MoviesAdapter
 import com.muhammetkdr.mymovielist.databinding.FragmentMoviesBinding
@@ -75,7 +73,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 //        isLoading = true
     }
 
-    fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         moviesAdapter = MoviesAdapter()
         binding.rvMovies.apply {
             adapter = moviesAdapter

@@ -8,26 +8,19 @@ import retrofit2.http.Query
 
 interface MoviesAPI {
 
-    @GET("popular")
+    @GET("movie/popular")
     suspend fun getPopularMovies(
         @Query("api_key")
         apiKey: String = API_KEY
     ): Response<Movies>
 
-    @GET("top_rated")
-    suspend fun getTopRatedMovies(
+    @GET("search/movie")
+    suspend fun searchMovies(
         @Query("api_key")
-        apiKey: String = API_KEY
+        apiKey: String = API_KEY,
+        @Query("query")
+        searchQuery : String,
     ): Response<Movies>
 }
-//    @GET("top_rates")
-//    suspend fun searchForNews(
-//        @Query("q")
-//        searchQuery : String ,
-//        @Query("page")
-//        pageNumber : Int = 1,
-//        @Query("apiKey")
-//        apiKey: String = API_KEY
-//    ): Response<Movies>
 
 //https://api.themoviedb.org/3/movie/popular?api_key=d1f85d110b688bdc7c34ee9d5926f793

@@ -17,6 +17,10 @@ class DetailsViewModel(val moviesRepository: MovieRepository) : ViewModel() {
         getCurrentMovieList()
     }
 
+    fun deleteMovie(movie: MoviesResponse) = viewModelScope.launch(Dispatchers.IO) {
+        moviesRepository.deleteArticle(movie)
+    }
+
     fun getCurrentMovieList() = moviesRepository.getSavedMovies()
 
 }

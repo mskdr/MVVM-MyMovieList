@@ -21,15 +21,31 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentDetailsBinding.inflate(layoutInflater,container,false)
+
+        val moviesRepository = MovieRepository(MoviesDatabase(requireContext()))
+        val detailsViewModelFactory = DetailsViewModelFactory(moviesRepository)
+        detailsViewModel = ViewModelProvider(this, detailsViewModelFactory)[DetailsViewModel::class.java]
+
+        arguments?.let {
+            val args = DetailsFragmentArgs.fromBundle(it)
+            args.let {
+                detailsViewModel.getCurrentMovieList().observe(viewLifecycleOwner){ movieList->
+                    movieList?.let {
+                        for (movie in movieList){
+                            val isTheSame = movie.title.equals(args.movie.title)
+                            if(isTheSame){
+                                binding.fapFavButton.visibility = View.INVISIBLE
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val moviesRepository = MovieRepository(MoviesDatabase(requireContext()))
-        val detailsViewModelFactory = DetailsViewModelFactory(moviesRepository)
-        detailsViewModel = ViewModelProvider(this, detailsViewModelFactory)[DetailsViewModel::class.java]
 
         arguments?.let {
             val args = DetailsFragmentArgs.fromBundle(it)
@@ -40,20 +56,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 binding.detailsTitle.text = movieList.movie.title
                 binding.detailsOverView.text = movieList.movie.overview
             }
-
-            detailsViewModel.getCurrentMovieList().observe(viewLifecycleOwner){ movieList->
-                movieList?.let {
-                    for (movie in movieList){
-                        val isTheSame = movie.title.equals(args.movie.title)
-                        if(isTheSame){
-                            binding.fapFavButton.visibility = View.INVISIBLE
-                        }
-                    }
-                }
-            }
             binding.fapFavButton.setOnClickListener{
                 detailsViewModel.saveMovie(args.movie)
-                Snackbar.make(view,"${args.movie.title} saved succesfully!", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view,"${args.movie.title} saved succesfully!", Snackbar.LENGTH_LONG).apply {
+                    setAction("Undo"){
+                        detailsViewModel.deleteMovie(args.movie)
+                        binding.fapFavButton.visibility = View.VISIBLE
+                    }
+                show()
+                }
             }
         }
     }
